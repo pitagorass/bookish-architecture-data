@@ -3,6 +3,7 @@ import { InmemoryUserRepository } from "../../implementations/inMemory/inMemoryU
 import { User } from "../../../domain/entities/user";
 import { UserGetterUseCase } from "../../../application/usecase/UserGetter/userGetter";
 import { UserUpdaterUseCase } from "../../../application/usecase/UserUpdater/userUpdater";
+import { UserDeleteUseCase } from "../../../application/usecase/UserDelete/userDelete";
 (async () => {
   const inMemoryUserRepo = new InmemoryUserRepository();
 
@@ -26,5 +27,11 @@ import { UserUpdaterUseCase } from "../../../application/usecase/UserUpdater/use
   const userUpdateUseCase = new UserUpdaterUseCase(inMemoryUserRepo);
   await userUpdateUseCase.run({ id: "1", username: "granada" });
   const usersReturned2 = await userGetterUseCase.run();
-  console.log("Usuarios Optenidos", usersReturned2);
+  console.log("Usuarios Actializados", usersReturned2);
+
+  // Eliminando Usuarios
+  const userDeleteUseCase = new UserDeleteUseCase(inMemoryUserRepo);
+  await userDeleteUseCase.run("1");
+  const usersReturned3 = await userGetterUseCase.run();
+  console.log("Usuarios Eliminado", usersReturned3);
 })();
