@@ -23,7 +23,11 @@ export class InmemoryUserRepository implements UserRepository {
     this.userData = users;
     return user;
   }
-  async delete(user: User): Promise<void> {}
+  async delete(user: User): Promise<void> {
+    const users = this.userData.filter((x) => x.id !== user.id);
+    this.userData = users;
+   // return user;
+  }
   async getById(id: string): Promise<User | null> {
     const userFuond = this.userData.find((x) => x.id === id);
     if (userFuond === undefined) {
