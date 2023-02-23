@@ -18,10 +18,17 @@ export class InmemoryUserRepository implements UserRepository {
   }
 
   async update(user: User): Promise<User> {
+    const users = this.userData.filter((x) => x.id !== user.id);
+    users.push(user);
+    this.userData = users;
     return user;
   }
   async delete(user: User): Promise<void> {}
   async getById(id: string): Promise<User | null> {
-    return null;
+    const userFuond = this.userData.find((x) => x.id === id);
+    if (userFuond === undefined) {
+      return null;
+    }
+    return userFuond;
   }
 }
